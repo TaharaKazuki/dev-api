@@ -1,13 +1,17 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import morgan from 'morgan'
+import path from 'path'
 
+// logeer
+import morgan from 'morgan'
 // route file
 import bootcamps from './routes/bootcamps'
 
-dotenv.config({ path: '../config/config.env' })
+dotenv.config({ path: path.resolve(__dirname, '../config/config.env') })
 
 const app = express()
+
+console.info('process.env', process.env.NODE_ENV)
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
