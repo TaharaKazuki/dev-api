@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import path from 'path'
+import logger from './middleware/logger'
 
 // logeer
 import morgan from 'morgan'
@@ -16,6 +17,8 @@ console.info('process.env', process.env.NODE_ENV)
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
+
+app.use(logger)
 
 app.use('/api/v1/bootcamps', bootcamps)
 
