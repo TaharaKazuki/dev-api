@@ -5,6 +5,11 @@ import logger from './middleware/logger'
 
 // logeer
 import morgan from 'morgan'
+import connectDB from '../config/db'
+
+// connect to database
+connectDB()
+
 // route file
 import bootcamps from './routes/bootcamps'
 
