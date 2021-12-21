@@ -3,9 +3,11 @@ import dotenv from 'dotenv'
 import path from 'path'
 import logger from './middleware/logger'
 import morgan from 'morgan'
+import colors from 'colors'
 import connectDB from '../config/db'
 
 dotenv.config({ path: path.resolve(__dirname, '../config/config.env') })
+colors.setTheme({})
 
 // connect to database
 connectDB()
@@ -26,10 +28,12 @@ app.use('/api/v1/bootcamps', bootcamps)
 const PORT = process.env.PORT || 8000
 
 const server = app.listen(PORT, () => {
-  console.info(`Server runnig is ${process.env.NODE_ENV} mode on port ${PORT}`)
+  console.info(
+    `Server runnig is ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
+  )
 })
 
 process.on('unhandledRejection', (err: Error, promise) => {
-  console.info(`Error: ${err.message}`)
+  console.info(`Error: ${err.message}`.red)
   server.close(() => process.exit(1))
 })
