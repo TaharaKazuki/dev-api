@@ -1,23 +1,34 @@
 import { Request, Response, NextFunction } from 'express'
 import Bootcamp from '../models/Bootcamp'
 
-export const getBootcamps = (
+export const getBootcamps = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  res.status(200).json({ success: true, msg: 'Show all bootcamps' })
+  try {
+    const bootcamps = await Bootcamp.find()
+    res
+      .status(200)
+      .json({ success: true, count: bootcamps.length, data: bootcamps })
+  } catch (error) {
+    res.status(400).json({ success: false })
+  }
 }
 
-export const getBootcamp = (
+export const getBootcamp = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  res.status(200).json({
-    success: true,
-    msg: `Show bootcamp ${req.params.id}`,
-  })
+  try {
+    const bootcamps = await Bootcamp.findById(req.params.id)
+    res
+      .status(200)
+      .json({ success: true, count: bootcamps.length, data: bootcamps })
+  } catch (error) {
+    res.status(400).json({ success: false })
+  }
 }
 
 export const createBootcamp = async (
@@ -36,22 +47,39 @@ export const createBootcamp = async (
   }
 }
 
-export const updateBootcamp = (
+export const updateBootcamp = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Update bootcamp ${req.params.id}` })
+  try {
+    const bootcamps = await Bootcamp.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
+    if (!bootcamps) {
+      return res.status(400).json({ success: false })
+    }
+  } catch (error) {
+    res.status(400).json({ success: false })
+  }
 }
 
-export const deleteBootcamp = (
+export const deleteBootcamp = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Delete bootcamp ${req.params.id}` })
+  try {
+    const bootcamps = await Bootcamp.findByIdAndDelete(req.params.id)
+    if (!bootcamps) {
+      return res.status(400).json({ success: false })
+    }
+  } catch (error) {
+    res.status(400).json({ success: false })
+  }
 }
