@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import Bootcamp from '../models/Bootcamp'
 
 export const getBootcamps = (
   req: Request,
@@ -19,12 +20,20 @@ export const getBootcamp = (
   })
 }
 
-export const createBootcamp = (
+export const createBootcamp = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  res.status(200).json({ success: true, msg: 'Create new bootcamp' })
+  try {
+    const bootcamp = await Bootcamp.create(req.body)
+    res.status(201).json({
+      success: true,
+      data: bootcamp,
+    })
+  } catch (error) {
+    res.status(400).json({ success: false })
+  }
 }
 
 export const updateBootcamp = (
