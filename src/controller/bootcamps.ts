@@ -53,15 +53,12 @@ export const updateBootcamp = async (
   next: NextFunction
 ) => {
   try {
-    const bootcamps = await Bootcamp.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    )
-    if (!bootcamps) {
+    const bootcamp = await Bootcamp.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    })
+    res.status(200).json({ success: true, data: bootcamp })
+    if (!bootcamp) {
       return res.status(400).json({ success: false })
     }
   } catch (error) {
@@ -79,6 +76,7 @@ export const deleteBootcamp = async (
     if (!bootcamps) {
       return res.status(400).json({ success: false })
     }
+    res.status(200).json({ success: true, data: {} })
   } catch (error) {
     res.status(400).json({ success: false })
   }
