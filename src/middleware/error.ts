@@ -30,6 +30,7 @@ const errorHandler = (
     error = new ErrorResponse(message, 400)
   }
 
+  // Mongoose Schema validation
   if (err.name === 'ValidationError') {
     const messageArray = Object.values(err.errors!).map((val) => val.message)
     error = new ErrorResponse(messageArray.join(), 400)
