@@ -5,6 +5,7 @@ interface IError extends Error {
   statusCode: number
   code?: number
   value?: string
+  errors?: [{ message: string }]
 }
 
 const errorHandler = (
@@ -23,9 +24,15 @@ const errorHandler = (
     error = new ErrorResponse(message, 404)
   }
 
+  // Mongoose duplicate key
   if (err.code === 11000) {
     const message = `Duplicate field value entered`
     error = new ErrorResponse(message, 400)
+  }
+
+  if (err.name === 'ValidationError') {
+    const messageArray = Object.values(err.errors!).map((val) => val.message)
+    error = new ErrorResponse(messageArray.join(), 400)
   }
 
   res
