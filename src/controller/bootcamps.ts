@@ -1,43 +1,24 @@
 import { Request, Response, NextFunction } from 'express'
 import Bootcamp from '../models/Bootcamp'
 import ErrorResponse from '../utils/errorResponse'
+import asyncHandler from '../middleware/async'
 
-export const getBootcamps = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const bootcamps = await Bootcamp.find()
-    res
-      .status(200)
-      .json({ success: true, count: bootcamps.length, data: bootcamps })
-  } catch (error) {
-    res.status(400).json({ success: false })
+export const getBootcamps = asyncHandler(async (req, res, next) => {
+  const bootcamps = await Bootcamp.find()
+  res
+    .status(200)
+    .json({ success: true, count: bootcamps.length, data: bootcamps })
+})
+
+export const getBootcamp = asyncHandler(async (req, res, next) => {
+  const bootcamp = await Bootcamp.findById(req.params.id)
+  if (!bootcamp) {
+    return next(
+      new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
+    )
   }
-}
-
-export const getBootcamp = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const bootcamps = await Bootcamp.findById(req.params.id)
-    res
-      .status(200)
-      .json({ success: true, count: bootcamps.length, data: bootcamps })
-
-    if (!bootcamps) {
-      return new ErrorResponse(
-        `Bootcamp not found with id of ${req.params.id}`,
-        404
-      )
-    }
-  } catch (error) {
-    next(error)
-  }
-}
+  res.status(200).json({ success: true, data: bootcamp })
+})
 
 export const createBootcamp = async (
   req: Request,

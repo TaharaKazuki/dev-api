@@ -6,6 +6,7 @@ import morgan from 'morgan'
 import colors from 'colors'
 import connectDB from '../config/db'
 import errorHandler from './middleware/error'
+import bootcamps from './routes/bootcamps'
 
 dotenv.config({ path: path.resolve(__dirname, '../config/config.env') })
 colors.setTheme({})
@@ -13,21 +14,21 @@ colors.setTheme({})
 // connect to database
 connectDB()
 
-// route file
-import bootcamps from './routes/bootcamps'
-
 const app = express()
 
+// parser
 app.use(express.json())
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
-
+// logger
 app.use(logger)
 
+// setting router
 app.use('/api/v1/bootcamps', bootcamps)
 
+// error hander
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 8000
