@@ -5,6 +5,7 @@ import logger from './middleware/logger'
 import morgan from 'morgan'
 import colors from 'colors'
 import connectDB from '../config/db'
+import errorHandler from './middleware/error'
 
 dotenv.config({ path: path.resolve(__dirname, '../config/config.env') })
 colors.setTheme({})
@@ -26,6 +27,8 @@ if (process.env.NODE_ENV === 'development') {
 app.use(logger)
 
 app.use('/api/v1/bootcamps', bootcamps)
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 8000
 

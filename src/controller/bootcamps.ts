@@ -26,11 +26,12 @@ export const getBootcamp = async (
     res
       .status(200)
       .json({ success: true, count: bootcamps.length, data: bootcamps })
+
     if (!bootcamps) {
       return res.status(400).json({ success: false })
     }
   } catch (error) {
-    res.status(400).json({ success: false })
+    next(error)
   }
 }
 
