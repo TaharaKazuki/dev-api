@@ -1,9 +1,12 @@
 import NodeGeocoder from 'node-geocoder'
+import dotenv from 'dotenv'
+import path from 'path'
+dotenv.config({ path: path.resolve(__dirname, '../config/config.env') })
 
 const geocoder = NodeGeocoder({
-  provider: 'google',
+  provider: 'mapquest',
   httpAdapter: 'https',
-  apiKey: '',
+  apiKey: process.env.GEOCODER_API_KEY,
   formatter: null,
 })
 

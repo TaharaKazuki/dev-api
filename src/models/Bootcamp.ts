@@ -99,6 +99,11 @@ const BootcampSchema = new mongoose.Schema({
   },
 })
 
+BootcampSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true })
+  next()
+})
+
 BootcampSchema.pre('save', async function (next) {
   const loc = await geocoder.geocode(this.adress)
 
@@ -112,8 +117,6 @@ BootcampSchema.pre('save', async function (next) {
     zipcode: loc[0].zipcode,
     country: loc[0].countryCode,
   }
-
-  console.info(location)
   // Not save address in DB
   this.address = undefined
   next()
