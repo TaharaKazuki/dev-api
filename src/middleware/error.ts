@@ -1,14 +1,20 @@
 import { Request, Response, NextFunction } from 'express'
-import { Error } from 'mongoose'
+
+interface IError extends Error {
+  statusCode: number
+}
+
 const errorHandler = (
-  err: Error,
+  err: IError,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   console.info(err.stack!.red)
 
-  res.status(500).json({ success: false, error: err.message })
+  res
+    .status(err.statusCode || 500)
+    .json({ success: false, error: err.message || 'Server Error' })
 }
 
 export default errorHandler

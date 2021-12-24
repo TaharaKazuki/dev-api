@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import Bootcamp from '../models/Bootcamp'
+import ErrorResponse from '../utils/errorResponse'
 
 export const getBootcamps = async (
   req: Request,
@@ -28,10 +29,15 @@ export const getBootcamp = async (
       .json({ success: true, count: bootcamps.length, data: bootcamps })
 
     if (!bootcamps) {
-      return res.status(400).json({ success: false })
+      return new ErrorResponse(
+        `Bootcamp not found with id of ${req.params.id}`,
+        404
+      )
     }
   } catch (error) {
-    next(error)
+    next(
+      new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
+    )
   }
 }
 
