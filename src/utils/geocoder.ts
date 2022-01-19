@@ -1,7 +1,7 @@
 import NodeGeocoder from 'node-geocoder'
 import dotenv from 'dotenv'
-import path from 'path'
-dotenv.config({ path: path.resolve(__dirname, '../config/config.env') })
+// import path from 'path'
+// dotenv.config({ path: path.resolve(__dirname, '../config/config.env') })
 
 type IGeocoderProvider =
   | 'freegeoip'
