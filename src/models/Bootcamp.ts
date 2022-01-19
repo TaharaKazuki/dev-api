@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import slugify from 'slugify'
 import geocoder from '../utils/geocoder'
-import ErrorResponse from '../utils/errorResponse'
 
 const BootcampSchema = new mongoose.Schema({
   name: {
