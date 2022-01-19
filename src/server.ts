@@ -8,6 +8,7 @@ import connectDB from '../config/db'
 import errorHandler from './middleware/error'
 import bootcamps from './routes/bootcamps'
 
+// load env vars
 dotenv.config({ path: path.resolve(__dirname, '../config/config.env') })
 colors.setTheme({})
 

@@ -6,8 +6,8 @@
   "scripts": {
     "start": "NODE_ENV=production ts-node src/server",
     "dev": "nodemon src/server.ts",
-    "seeder-i": "ts-node seeder.ts -i",
-    "seeder-d": "ts-node seeder.ts -d"
+    "seeder-i": "ts-node src/seeder.ts -i",
+    "seeder-d": "ts-node src/seeder.ts -d"
   },
   "repository": {
     "type": "git",

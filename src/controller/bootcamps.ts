@@ -21,6 +21,7 @@ export const getBootcamp = asyncHandler(async (req, res, next) => {
 })
 
 export const createBootcamp = asyncHandler(async (req, res, next) => {
+  // console.info('req.body', req.body)
   const bootcamp = await Bootcamp.create(req.body)
   res.status(201).json({
     success: true,
