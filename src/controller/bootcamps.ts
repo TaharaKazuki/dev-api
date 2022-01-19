@@ -28,7 +28,6 @@ export const getBootcamp = asyncHandler(async (req, res, next) => {
 })
 
 export const createBootcamp = asyncHandler(async (req, res, next) => {
-  // console.info('req.body', req.body)
   const bootcamp = await Bootcamp.create(req.body)
   res.status(201).json({
     success: true,
@@ -60,15 +59,11 @@ export const deleteBootcamp = asyncHandler(async (req, res, next) => {
 
 export const getBootcampsInRadius = asyncHandler(async (req, res, next) => {
   const { zipcode, distance } = req.params
-  console.info('zipcode', zipcode)
-  console.info('distance', distance)
   // Get lat/lng from geocoder
   const loc = await geocoder.geocode(zipcode)
   const lat = loc[0].latitude
   const lng = loc[0].longitude
 
-  console.info('loc', loc)
-  // console.info('distance', distance)
   // Calc radius using radians
   // Divide dist by radius of Earth
   // Earch Radius = 3.963mi / 6.378 km
