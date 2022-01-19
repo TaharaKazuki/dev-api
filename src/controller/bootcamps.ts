@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import Bootcamp from '../models/Bootcamp'
 import ErrorResponse from '../utils/errorResponse'
 import asyncHandler from '../middleware/async'
+import geocoder from '../utils/geocoder'
 
 export const getBootcamps = asyncHandler(async (req, res, next) => {
   const bootcamps = await Bootcamp.find()
@@ -49,4 +50,31 @@ export const deleteBootcamp = asyncHandler(async (req, res, next) => {
       new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
     )
   }
+})
+
+export const getBootcampsInRadius = asyncHandler(async (req, res, next) => {
+  const { zipcode, distance } = req.params
+  console.info('zipcode', zipcode)
+  console.info('distance', distance)
+  // Get lat/lng from geocoder
+  const loc = await geocoder.geocode(zipcode)
+  const lat = loc[0].latitude
+  const lng = loc[0].longitude
+
+  console.info('loc', loc)
+  // console.info('distance', distance)
+  // Calc radius using radians
+  // Divide dist by radius of Earth
+  // Earch Radius = 3.963mi / 6.378 km
+  const radius = +distance / 3963
+
+  const bootcamps = await Bootcamp.find({
+    location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+  })
+
+  res.status(200).json({
+    success: true,
+    count: bootcamps.length,
+    data: bootcamps,
+  })
 })
