@@ -5,7 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "start": "NODE_ENV=production ts-node src/server",
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "seeder-i": "ts-node seeder.ts -i"
   },
   "repository": {
     "type": "git",
