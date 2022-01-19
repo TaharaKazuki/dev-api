@@ -9,6 +9,7 @@ export const getBootcamps = asyncHandler(async (req, res, next) => {
   let queryStr = JSON.stringify(req.query)
 
   queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`)
+
   query = Bootcamp.find(JSON.parse(queryStr))
   const bootcamps = await query
   res
