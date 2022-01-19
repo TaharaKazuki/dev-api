@@ -4,15 +4,13 @@ import colors from 'colors'
 import dotenv from 'dotenv'
 import path from 'path/posix'
 import Bootcamp from './src/models/Bootcamp'
+import connectDB from './config/db'
 
 // load env vars
 dotenv.config({ path: path.resolve(__dirname, './config/config.env') })
 colors.setTheme({})
 
-const connectDB = async () => {
-  const conn = await mongoose.connect(process.env.MONGO_URI!)
-  console.info(`MongoDB Connected: ${conn.connection.host}`.cyan.underline.bold)
-}
+mongoose.connect(process.env.MONGO_URI!)
 
 // Read JSON files
 const bootcamps = JSON.parse(
@@ -28,7 +26,6 @@ const importData = async () => {
     console.error(err)
   }
 }
-
 // delete DB
 const deleteData = async () => {
   try {
